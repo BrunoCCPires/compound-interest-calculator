@@ -1,0 +1,1 @@
+Implementada uma calculadora de juros compostos com interface amigável. A calculadora permite inserir valor inicial, aporte mensal, taxa de juros anual e período em anos, retornando o montante final com juros compostos considerando os aportes mensais.

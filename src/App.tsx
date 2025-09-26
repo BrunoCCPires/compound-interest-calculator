@@ -1,34 +1,84 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [principal, setPrincipal] = useState('')
+  const [monthlyContribution, setMonthlyContribution] = useState('')
+  const [interestRate, setInterestRate] = useState('')
+  const [period, setPeriod] = useState('')
+  const [result, setResult] = useState<number | null>(null)
+
+  const calculateCompoundInterest = () => {
+    const p = parseFloat(principal)
+    const pmt = parseFloat(monthlyContribution)
+    const r = parseFloat(interestRate) / 100 / 12 // Monthly interest rate
+    const t = parseFloat(period) * 12 // Total months
+
+    if (isNaN(p) || isNaN(pmt) || isNaN(r) || isNaN(t)) {
+      alert('Por favor, preencha todos os campos com valores válidos')
+      return
+    }
+
+    // Calculate compound interest with monthly contributions
+    const amount = p * Math.pow(1 + r, t) + 
+                   pmt * ((Math.pow(1 + r, t) - 1) / r)
+
+    setResult(Number(amount.toFixed(2)))
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="calculator">
+      <h1>Calculadora de Juros Compostos</h1>
+      
+      <div className="input-group">
+        <label>Investimento Inicial (R$):</label>
+        <input
+          type="number"
+          value={principal}
+          onChange={(e) => setPrincipal(e.target.value)}
+          placeholder="Ex: 1000"
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+      <div className="input-group">
+        <label>Aporte Mensal (R$):</label>
+        <input
+          type="number"
+          value={monthlyContribution}
+          onChange={(e) => setMonthlyContribution(e.target.value)}
+          placeholder="Ex: 100"
+        />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      <div className="input-group">
+        <label>Taxa de Juros Anual (%):</label>
+        <input
+          type="number"
+          value={interestRate}
+          onChange={(e) => setInterestRate(e.target.value)}
+          placeholder="Ex: 12"
+        />
+      </div>
+
+      <div className="input-group">
+        <label>Período (anos):</label>
+        <input
+          type="number"
+          value={period}
+          onChange={(e) => setPeriod(e.target.value)}
+          placeholder="Ex: 5"
+        />
+      </div>
+
+      <button onClick={calculateCompoundInterest}>Calcular</button>
+
+      {result !== null && (
+        <div className="result">
+          <h2>Montante Final:</h2>
+          <p>R$ {result.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+        </div>
+      )}
+    </div>
   )
 }
 
