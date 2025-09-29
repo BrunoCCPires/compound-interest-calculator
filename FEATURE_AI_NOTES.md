@@ -1,1 +1,1 @@
-Implementada uma calculadora de juros compostos com interface amigável. A calculadora permite inserir valor inicial, aporte mensal, taxa de juros anual e período em anos, retornando o montante final com juros compostos considerando os aportes mensais.
+Added dark mode styles by creating a new App.css file and updating index.css with dark theme variables and base styles. The calculator now has a dark theme with appropriate contrast and modern styling.
